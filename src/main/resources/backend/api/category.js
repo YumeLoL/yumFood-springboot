@@ -1,4 +1,4 @@
-// 查询列表接口
+// get all category
 const getCategoryPage = (params) => {
   return $axios({
     url: '/category/page',
@@ -24,7 +24,7 @@ const deleCategory = (ids) => {
   })
 }
 
-// 修改接口
+// edit category
 const editCategory = (params) => {
   return $axios({
     url: '/category',
@@ -33,7 +33,7 @@ const editCategory = (params) => {
   })
 }
 
-// 新增接口
+// add new dish or add new promos category
 const addCategory = (params) => {
   return $axios({
     url: '/category',

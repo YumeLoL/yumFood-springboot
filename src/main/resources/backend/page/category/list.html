@@ -20,13 +20,13 @@
         <el-button
           type="primary"
           class="continue"
-          @click="addClass('class')"
+          @click="addClass('dish')"
         >
           + New A Dish Category
         </el-button>
         <el-button
           type="primary"
-          @click="addClass('meal')"
+          @click="addClass('promos')"
         >
           + New A Promos Category
         </el-button>
@@ -95,6 +95,7 @@
         @current-change="handleCurrentChange"
       ></el-pagination>
     </div>
+
     <el-dialog
       :title="classData.title"
       :visible.sync="classData.dialogVisible"
@@ -138,6 +139,7 @@
         > Save and Continue</el-button>
       </span>
     </el-dialog>
+
   </div>
     <script src="../../plugins/vue/vue.js"></script>
     <script src="../../plugins/element-ui/index.js"></script>
@@ -160,7 +162,7 @@
               'dialogVisible': false,
               'categoryId': '',
               'name': '',
-              sort: ''
+              'sort': ''
             }
           }
         },
@@ -189,7 +191,7 @@
           },
            // Add
           addClass(st) {
-            if (st == 'class') {
+            if (st == 'dish') {
               this.classData.title = 'Add a dish category'
               this.type = '1'
             } else {
@@ -232,7 +234,7 @@
               })
             })
           },
-          //数据提交
+          // submit form
           submitForm(st) {
               const classData = this.classData
               const valid = (classData.name === 0 ||classData.name)  && (classData.sort === 0 || classData.sort)
