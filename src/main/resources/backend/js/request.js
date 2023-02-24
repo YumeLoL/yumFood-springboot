@@ -42,9 +42,9 @@
       Promise.reject(error)
   })
 
-  // 响应拦截器
+  // request interceptor
   service.interceptors.response.use(res => {
-      if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// 返回登录页面
+      if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// back to login page
         console.log('---/backend/page/login/login.html---')
         localStorage.removeItem('userInfo')
         window.top.location.href = '/backend/page/login/login.html'
@@ -55,14 +55,14 @@
     error => {
       console.log('err' + error)
       let { message } = error;
-      if (message == "Network Error") {
-        message = "后端接口连接异常";
+      if (message === "Network Error") {
+        message = "Backend api Error";
       }
       else if (message.includes("timeout")) {
-        message = "系统接口请求超时";
+        message = "The system api request timed out";
       }
       else if (message.includes("Request failed with status code")) {
-        message = "系统接口" + message.substr(message.length - 3) + "异常";
+        message = "The system api" + message.substr(message.length - 3) + "issue";
       }
       window.ELEMENT.Message({
         message: message,
