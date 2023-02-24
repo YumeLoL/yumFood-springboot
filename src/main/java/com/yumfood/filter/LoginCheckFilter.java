@@ -1,6 +1,7 @@
 package com.yumfood.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.yumfood.common.BaseContext;
 import com.yumfood.common.R;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -55,6 +56,10 @@ public class LoginCheckFilter implements Filter {
             log.info("......The user has already login，the id is：{} ......",request.getSession().getAttribute(
                     "employee"));
 
+            // get current logined employee's id from session
+            Long currentLoginEmpId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(currentLoginEmpId);
+
             filterChain.doFilter(request,response);
             return;
         }
@@ -83,6 +88,7 @@ public class LoginCheckFilter implements Filter {
         }
         return false;
     }
+
 }
 
 

@@ -92,14 +92,9 @@ public class EmployeeController {
     public R<String> save(@RequestBody Employee employee, HttpServletRequest request){
         log.info("......The new employee info：{}",employee.toString());
 
-        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes())); // init password using Hash md5
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-
-        // get current logined user id from session saved before
-        Long currentUserId = (Long) request.getSession().getAttribute("employee");
-        employee.setCreateUser(currentUserId);
-        employee.setUpdateUser(currentUserId);
+        // init password using Hash md5
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        // other value like updateTime, createTime, updateUser, and createUser being managed by Auto-fill handler
 
         employeeService.save(employee);
         return R.success("Add a new employee successful");
@@ -140,13 +135,6 @@ public class EmployeeController {
     @PutMapping
     public R<String> update(@RequestBody Employee employee, HttpServletRequest request){
         //log.info(employee.toString());
-
-        // get current logined user id from session saved before
-        Long currentUserId = (Long) request.getSession().getAttribute("employee");
-        employee.setCreateUser(currentUserId);
-        employee.setUpdateUser(currentUserId);
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
 
         employeeService.updateById(employee);
 
