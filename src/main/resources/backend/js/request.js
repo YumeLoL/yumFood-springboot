@@ -1,20 +1,18 @@
 (function (win) {
   axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
-  // 创建axios实例
+  // create axios instance
   const service = axios.create({
-    // axios中请求配置有baseURL选项，表示请求URL公共部分
     baseURL: '/',
-    // 超时
     timeout: 10000
   })
-  // request拦截器
+  // request interceptors for api request
   service.interceptors.request.use(config => {
-    // 是否需要设置 token
     // const isToken = (config.headers || {}).isToken === false
     // if (getToken() && !isToken) {
-    //   config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    //   config.headers['Authorization'] = 'Bearer ' + getToken()
     // }
-    // get请求映射params参数
+
+    // GET request with params
     if (config.method === 'get' && config.params) {
       let url = config.url + '?';
       for (const propName of Object.keys(config.params)) {
@@ -42,7 +40,7 @@
       Promise.reject(error)
   })
 
-  // request interceptor
+  // request interceptor for login check
   service.interceptors.response.use(res => {
       if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// back to login page
         console.log('---/backend/page/login/login.html---')

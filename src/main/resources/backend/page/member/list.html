@@ -36,7 +36,7 @@
         </el-input>
         <el-button
           type="primary"
-          @click="addMemberHandle('add')"
+          @click="addMemberHandle('new')"
         >
           + New employee
         </el-button>
@@ -52,7 +52,7 @@
         ></el-table-column>
         <el-table-column
           prop="username"
-          label="Account name"
+          label="Username"
         ></el-table-column>
         <el-table-column
           prop="email"
@@ -150,11 +150,11 @@
           },
            // add
           addMemberHandle (st) {
-            if (st === 'add'){
+            if (st === 'new'){
               window.parent.menuHandle({
                 id: '2',
                 url: '/backend/page/member/add.html',
-                name: 'Add employee'
+                name: 'New employee'
               },true)
             } else {
               window.parent.menuHandle({
@@ -168,7 +168,7 @@
           statusHandle (row) {
             this.id = row.id
             this.status = row.status
-            this.$confirm('Do you want to change the status?', 'xx', {
+            this.$confirm('Do you want to change the status?', 'Attention', {
               'confirmButtonText': 'Yes',
               'cancelButtonText': 'Cancel',
               'type': 'warning'

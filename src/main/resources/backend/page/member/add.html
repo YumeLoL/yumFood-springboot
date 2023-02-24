@@ -80,7 +80,7 @@
               Save
             </el-button>
             <el-button
-              v-if="actionType == 'add'"
+              v-if="actionType === 'new'"
               type="primary"
               class="continue"
               @click="submitForm('ruleForm', true)"
@@ -111,7 +111,7 @@
                 'email': '',
                 'phone':'',
                 'sex': 'Female',
-                username: ''
+                'username': ''
             }
           }
         },
@@ -119,17 +119,17 @@
           rules () {
             return {
               //user account
-              username: [{ required: true, 'validator': checkUserName, trigger: 'blur'}],
+              'username': [{ 'required': true, 'validator': checkUserName, 'trigger': 'blur'}],
               //employee name
-              name: [{ required: true, 'validator': checkName, 'trigger': 'blur' }],
-              'phone': [{ 'required': true, 'trigger': 'blur' }],
-              'email': [{ 'required': true, 'trigger': 'blur' }],
+              'name': [{ 'required': true, 'validator': checkName, 'trigger': 'blur' }],
+              'phone': [{ 'required': true,'validator': checkPhone, 'trigger': 'blur' }],
+              'email': [{ 'required': true, 'validator': checkEmail, 'trigger': 'blur' }],
             }
           }
         },
         created() {
           this.id = requestUrlParam('id')
-          this.actionType = this.id ? 'edit' : 'add'
+          this.actionType = this.id ? 'edit' : 'new'
           if (this.id) {
             this.init()
           }
@@ -153,19 +153,19 @@
           submitForm (formName, st) {
             this.$refs[formName].validate((valid) => {
               if (valid) {
-                if (this.actionType === 'add') {
+                if (this.actionType === 'new') {
                   const params = {
                     ...this.ruleForm,
                     sex: this.ruleForm.sex === 'Female' ? '0' : '1'
                   }
                   addEmployee(params).then(res => {
                     if (res.code === 1) {
-                      this.$message.success('Add new employee successful！')
+                      this.$message.success('Add a new employee successful！')
                       if (!st) {
                         this.goBack()
                       } else {
                         this.ruleForm = {
-                          username: '',
+                          'username': '',
                           'name': '',
                           'phone': '',
                           'email': '',

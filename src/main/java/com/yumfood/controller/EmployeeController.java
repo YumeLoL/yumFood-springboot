@@ -1,6 +1,8 @@
 package com.yumfood.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yumfood.common.R;
 import com.yumfood.entity.Employee;
 import com.yumfood.service.EmployeeService;
@@ -9,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 
 @Slf4j
@@ -75,4 +79,54 @@ public class EmployeeController {
         return R.success("Logout successful");
     }
 
+
+    /**
+     * add a new employee
+     * 1. init password
+     * 2. update create time and userid
+     * ( username is unique - GlobalExceptionHandler to trycatch error)
+     * @param employee
+     * @return
+     */
+    @PostMapping
+    public R<String> save(@RequestBody Employee employee, HttpServletRequest request){
+        log.info("......The new employee info：{}",employee.toString());
+
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes())); // init password using Hash md5
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        // get current logined user id from session saved before
+        Long currentUserId = (Long) request.getSession().getAttribute("employee");
+        employee.setCreateUser(currentUserId);
+        employee.setUpdateUser(currentUserId);
+
+        employeeService.save(employee);
+        return R.success("Add a new employee successful");
+    }
+
+
+    /**
+     *
+     * @param page
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    @GetMapping("/page")
+    public R<Page<Employee>> page(int page, int pageSize, String name){
+        //log.info("page={},pageSize={},name={}", page, pageSize, name);
+
+        Page<Employee> pageInfo=new Page<>(page,pageSize);
+
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        // if search by name (name is not empty)
+        queryWrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
+        queryWrapper.orderByDesc(Employee::getUpdateTime); // in desc order
+
+        // search by page, pageSize, or and name
+        employeeService.page(pageInfo,queryWrapper);
+
+        return R.success(pageInfo);
+    }
 }

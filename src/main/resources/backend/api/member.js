@@ -1,3 +1,4 @@
+// get all employees
 function getMemberList (params) {
   return $axios({
     url: '/employee/page',
@@ -15,7 +16,7 @@ function enableOrDisableEmployee (params) {
   })
 }
 
-// 新增---添加员工
+// add a new employee
 function addEmployee (params) {
   return $axios({
     url: '/employee',
