@@ -129,4 +129,47 @@ public class EmployeeController {
 
         return R.success(pageInfo);
     }
+
+
+    /**
+     * update details of employee, include change status
+     * @param employee
+     * @param request
+     * @return
+     */
+    @PutMapping
+    public R<String> update(@RequestBody Employee employee, HttpServletRequest request){
+        //log.info(employee.toString());
+
+        // get current logined user id from session saved before
+        Long currentUserId = (Long) request.getSession().getAttribute("employee");
+        employee.setCreateUser(currentUserId);
+        employee.setUpdateUser(currentUserId);
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        employeeService.updateById(employee);
+
+        return R.success("Update employee info successful");
+    }
+
+
+    /**
+     * get employee details by id
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable String id){
+
+        Employee emp = employeeService.getById(id);
+
+        if(emp == null){
+            return R.error("No such employee under this id");
+        }
+
+        return R.success(emp);
+    }
+
+
 }

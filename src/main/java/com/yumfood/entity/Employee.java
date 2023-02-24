@@ -31,7 +31,7 @@ public class Employee implements Serializable {
 
     private String sex;
 
-    private Integer status;
+    private Integer status; // '1' active; '0' disable
 
     @TableField(fill = FieldFill.INSERT) //insert autofill
     private LocalDateTime createTime;

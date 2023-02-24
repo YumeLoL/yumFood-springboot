@@ -85,7 +85,7 @@
               @click="statusHandle(scope.row)"
               v-if="user === 'admin'"
             >
-              {{ scope.row.status == '1' ? 'Suspend' : 'Start' }}
+              {{ scope.row.status == '1' ? 'Disable' : 'Active' }}
             </el-button>
           </template>
         </el-table-column>
@@ -164,11 +164,11 @@
               },true)
             }
           },
-          //edit status
+          //modify status
           statusHandle (row) {
             this.id = row.id
             this.status = row.status
-            this.$confirm('Do you want to change the status?', 'Attention', {
+            this.$confirm('Do you want to change status?', 'Attention', {
               'confirmButtonText': 'Yes',
               'cancelButtonText': 'Cancel',
               'type': 'warning'

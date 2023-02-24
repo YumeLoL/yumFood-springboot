@@ -7,15 +7,6 @@ function getMemberList (params) {
   })
 }
 
-// 修改---启用禁用接口
-function enableOrDisableEmployee (params) {
-  return $axios({
-    url: '/employee',
-    method: 'put',
-    data: { ...params }
-  })
-}
-
 // add a new employee
 function addEmployee (params) {
   return $axios({
@@ -25,7 +16,16 @@ function addEmployee (params) {
   })
 }
 
-// 修改---添加员工
+// get employee by id
+function queryEmployeeById (id) {
+  return $axios({
+    url: `/employee/${id}`,
+    method: 'get'
+  })
+}
+
+// edit and modify status use the same API interface
+// edit employee
 function editEmployee (params) {
   return $axios({
     url: '/employee',
@@ -34,10 +34,12 @@ function editEmployee (params) {
   })
 }
 
-// 修改页面反查详情接口
-function queryEmployeeById (id) {
+// modify employee status
+function enableOrDisableEmployee (params) {
   return $axios({
-    url: `/employee/${id}`,
-    method: 'get'
+    url: '/employee',
+    method: 'put',
+    data: { ...params }
   })
 }
+
