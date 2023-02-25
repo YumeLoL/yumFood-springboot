@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- dish
+ * promos setmeal
  */
 @Data
-public class Dish implements Serializable {
+public class Setmeal implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -26,30 +26,29 @@ public class Dish implements Serializable {
 
     private Long categoryId;
 
-    private double price;
+    private BigDecimal price;
+
+    private Integer status;// 0 stop selling; 1 start selling
 
     private String code;
 
-    private String image;
-
     private String description;
 
-    private Integer status; // 0 stop selling; 1 start selling
-
-    private Integer sort;
+    private String image;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
 
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
+
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
-
-
 
 }

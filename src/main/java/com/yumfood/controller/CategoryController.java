@@ -65,8 +65,13 @@ public class CategoryController {
     }
 
 
-    @DeleteMapping("/{id}")
-    public R<String> delete(@PathVariable Long id){
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{ids}")
+    public R<String> delete( Long ids){
 
 
         return R.success("Delete Category successful");

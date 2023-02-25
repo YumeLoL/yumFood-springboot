@@ -20,8 +20,6 @@ public class DishExtra implements Serializable {
 
     private Long id;
 
-    private Long dishId;
-
     private String name;
 
     private double basePrice;
