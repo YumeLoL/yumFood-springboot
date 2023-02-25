@@ -31,7 +31,13 @@ public class CategoryController {
         return R.success("add a new category successful");
     }
 
-
+    /**
+     * get all category / search by name
+     * @param page
+     * @param pageSize
+     * @param name
+     * @return
+     */
     @GetMapping("/page")
     public R<Page<Category>> page(int page, int pageSize, String name){
         Page<Category> pageInfo = new Page<>(page, pageSize);
@@ -44,4 +50,26 @@ public class CategoryController {
 
         return R.success(pageInfo);
     }
+
+
+    /**
+     * update category by id
+     * @param category
+     * @return
+     */
+    @PutMapping
+    public R<String> update(@RequestBody Category category){
+        categoryService.updateById(category);
+
+        return R.success("Update category successful");
+    }
+
+
+    @DeleteMapping("/{id}")
+    public R<String> delete(@PathVariable Long id){
+
+
+        return R.success("Delete Category successful");
+    }
+
 }

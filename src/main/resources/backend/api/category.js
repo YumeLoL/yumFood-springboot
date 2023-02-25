@@ -7,22 +7,16 @@ const getCategoryPage = (params) => {
   })
 }
 
-// 编辑页面反查详情接口
-const queryCategoryById = (id) => {
+
+// add new dish or add new promos category
+const addCategory = (params) => {
   return $axios({
-    url: `/category/${id}`,
-    method: 'get'
+    url: '/category',
+    method: 'post',
+    data: { ...params }
   })
 }
 
-// 删除当前列的接口
-const deleCategory = (ids) => {
-  return $axios({
-    url: '/category',
-    method: 'delete',
-    params: { ids }
-  })
-}
 
 // edit category
 const editCategory = (params) => {
@@ -33,11 +27,19 @@ const editCategory = (params) => {
   })
 }
 
-// add new dish or add new promos category
-const addCategory = (params) => {
+
+// delete category
+const deleCategory = (ids) => {
   return $axios({
     url: '/category',
-    method: 'post',
-    data: { ...params }
+    method: 'delete',
+    params: { ids }
   })
 }
+
+// const queryCategoryById = (id) => {
+//   return $axios({
+//     url: `/category/${id}`,
+//     method: 'get'
+//   })
+// }
