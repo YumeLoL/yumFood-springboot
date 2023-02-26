@@ -5,5 +5,6 @@ import com.yumfood.entity.Category;
 
 public interface CategoryService extends IService<Category> {
 
+    void remove(Long ids);
 
 }

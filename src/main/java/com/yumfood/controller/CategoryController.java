@@ -70,9 +70,10 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @DeleteMapping("/{ids}")
+    @DeleteMapping
     public R<String> delete( Long ids){
 
+        categoryService.remove(ids);
 
         return R.success("Delete Category successful");
     }
