@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    //进行异常处理方法
+    // custom exception handler
     @ExceptionHandler(CustomException.class)
     public R<String> exceptionHandler(CustomException ex){
         log.error(ex.getMessage());

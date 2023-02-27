@@ -72,6 +72,7 @@ public class CategoryController {
      */
     @DeleteMapping
     public R<String> delete( Long ids){
+        log.info("Delete: category id = {}", ids);
 
         categoryService.remove(ids);
 

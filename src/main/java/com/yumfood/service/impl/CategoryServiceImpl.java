@@ -14,38 +14,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService{
-
-    @Autowired
-    private DishService dishService;
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
     @Autowired
     private SetmealService setmealService;
+    @Autowired
+    private DishService dishService;
 
+
+    /**
+     * Delete a category based on its id.
+     * Check whether there are associated dish or setmeal before deleting the category
+     * @param id
+     */
     @Override
-    public void remove(Long ids) {
-        //check dish table, if there is any dish relates to a category, then cannot delete and throw exception
-        //sql: select count(*) from dish where category_id = ?;
-        LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        dishLambdaQueryWrapper.eq(Dish::getCategoryId, ids);
-        int countDish = (int) dishService.count(dishLambdaQueryWrapper);
+    public void remove(Long id) {
 
+        // select count(*) from dish where category_id = xxxx;
+        LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        dishLambdaQueryWrapper.eq(Dish::getCategoryId, id);
+        int countDish= (int) dishService.count(dishLambdaQueryWrapper);
+
+        // if count > 0, throw exception
         if(countDish > 0){
-            // trow a custom exception
-            throw new CustomException("There are dishes under this category, cannot delete");
+            throw new CustomException("This category cannot be deleted, as there are associated dishes");
         }
 
-        //check dish table, if there is any dish relates to a category, then cannot delete
-        //sql: select count(*) from dish where category_id = ?;
+
+        // select count(*) from setmeal where category_id = xxxx;
         LambdaQueryWrapper<Setmeal> setmealLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        setmealLambdaQueryWrapper.eq(Setmeal::getCategoryId, ids);
+        setmealLambdaQueryWrapper.eq(Setmeal::getCategoryId, id);
         int countSetmeal = (int) setmealService.count(setmealLambdaQueryWrapper);
 
+        // if count > 0, throw exception
         if(countSetmeal > 0){
-            // trow a custom exception
-            throw new CustomException("There are setmeals under this category, cannot delete");
+            throw new CustomException("This category cannot be deleted, as there are associated setmeal");
         }
 
-        super.removeById(ids);
+        // if no any associated item, then delete
+        super.removeById(id);
     }
 }
