@@ -98,7 +98,7 @@
               <span
                 v-if="dishFlavors.length == 0"
                 class="addBut"
-                @click="addFlavore"
+                @click="addFlavor"
               > + Add flavor</span>
               <div
                 v-if="dishFlavors.length != 0"
@@ -170,7 +170,7 @@
                 </div>
                 <div
                   class="addBut"
-                  @click="addFlavore"
+                  @click="addFlavor"
                 >
                   Add flavor
                 </div>
@@ -343,31 +343,31 @@
                 // this.imageUrl = res.data.data.image
                 this.imageUrl = `/common/download?name=${res.data.image}`
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.msg || 'Action failed')
               }
             })
           },
-          // 按钮 - 添加口味
-          addFlavore () {
+          // button - add flavor
+          addFlavor () {
             this.dishFlavors.push({'name': '', 'value': [], showOption: false}) // JSON.parse(JSON.stringify(this.dishFlavorsData))
           },
 
-          // 按钮 - 删除口味
+          // button - delete flavor
           delFlavor (ind) {
             this.dishFlavors.splice(ind, 1)
           },
 
-          // 按钮 - 删除口味标签
+          // button - delete flavor label
           delFlavorLabel (index, ind) {
             this.dishFlavors[index].value.splice(ind, 1)
           },
 
-          //口味位置记录
+          //
           flavorPosition (index) {
             this.index = index
           },
 
-          // 添加口味标签
+          // add flavor label
           keyDownHandle (val,index) {
             console.log('keyDownHandle----val',val)
             console.log('keyDownHandle----index',index)
@@ -384,13 +384,13 @@
             }
           },
 
-          // 获取菜品分类
+          // get category list
           getDishList () {
             getCategoryList({ 'type': 1 }).then(res => {
               if (res.code === 1) {
                 this.dishList = res.data
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.msg || 'Action failed')
               }
             })
           },

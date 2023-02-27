@@ -44,7 +44,7 @@ const queryDishById = (id) => {
   })
 }
 
-// 获取菜品分类列表
+// get category list
 const getCategoryList = (params) => {
   return $axios({
     url: '/category/list',
@@ -62,7 +62,7 @@ const queryDishList = (params) => {
   })
 }
 
-// 文件down预览
+// img download
 const commonDownload = (params) => {
   return $axios({
     headers: {

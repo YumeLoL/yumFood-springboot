@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yumfood.common.R;
+import com.yumfood.dto.DishDto;
 import com.yumfood.entity.Category;
 import com.yumfood.entity.Dish;
 import com.yumfood.service.DishService;
@@ -33,8 +34,8 @@ public class DishController {
     }
 
     @PostMapping
-    public R<String> save(@RequestBody Dish dish){
-        dishService.save(dish);
+    public R<String> save(@RequestBody DishDto dishDto){
+        dishService.saveWithFlavor(dishDto);
 
         return R.success("Add a new dish successful");
     }
