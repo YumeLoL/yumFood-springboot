@@ -27,7 +27,6 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     private DishFlavorService dishFlavorService;
 
 
-
     /**
      * save new dish with flavor
      * @param dishDto
@@ -35,9 +34,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     @Override
     @Transactional
     public void saveWithFlavor(DishDto dishDto) {
-        //save general data to table dish
+
+        // save general data to table dish
         this.save(dishDto);
 
+        // save data to dishFlavor
         Long dishId = dishDto.getId();
         List<DishFlavor> flavors = dishDto.getFlavors();
         flavors = flavors.stream().map((item) -> {
@@ -47,6 +48,51 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         dishFlavorService.saveBatch(flavors);
 
+    }
 
+    /**
+     * get dish and selected dish flavor info
+     * @param id
+     */
+    @Override
+    @Transactional
+    public DishDto getWithFlavor(Long id) {
+        // get general data by id
+        Dish dish = this.getById(id);
+
+        DishDto dishDto=new DishDto();
+        BeanUtils.copyProperties(dish,dishDto);
+
+        // query flavor data
+        LambdaQueryWrapper<DishFlavor> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(DishFlavor::getDishId,dish.getId());
+        List<DishFlavor> list = dishFlavorService.list(queryWrapper);
+
+        dishDto.setFlavors(list);
+
+        return dishDto;
+    }
+
+    @Override
+    @Transactional
+    public void updateWithFlavor(DishDto dishDto) {
+        //update dish info by id
+        this.updateById(dishDto);
+
+        //update dish_flavor data
+        // a. to delete all data in dish_flavor first
+        LambdaQueryWrapper<DishFlavor> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(DishFlavor::getDishId, dishDto.getId());
+        dishFlavorService.remove(queryWrapper);
+
+        // b. insert new flavor info
+        List<DishFlavor> flavors = dishDto.getFlavors();
+
+        flavors = flavors.stream().map((item) -> {
+            item.setDishId(dishDto.getId());
+            return item;
+        }).collect(Collectors.toList());
+
+        dishFlavorService.saveBatch(flavors);
     }
 }

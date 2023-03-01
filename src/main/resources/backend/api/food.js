@@ -16,16 +16,17 @@ const addDish = (params) => {
   })
 }
 
-// 删除接口
-const deleteDish = (ids) => {
+
+
+// get a dish info by id
+const queryDishById = (id) => {
   return $axios({
-    url: '/dish',
-    method: 'delete',
-    params: { ids }
+    url: `/dish/${id}`,
+    method: 'get'
   })
 }
 
-// 修改接口
+// edit
 const editDish = (params) => {
   return $axios({
     url: '/dish',
@@ -35,14 +36,15 @@ const editDish = (params) => {
 }
 
 
-
-// 查询详情
-const queryDishById = (id) => {
+// delete
+const deleteDish = (ids) => {
   return $axios({
-    url: `/dish/${id}`,
-    method: 'get'
+    url: '/dish',
+    method: 'delete',
+    params: { ids }
   })
 }
+
 
 // get category list
 const getCategoryList = (params) => {
