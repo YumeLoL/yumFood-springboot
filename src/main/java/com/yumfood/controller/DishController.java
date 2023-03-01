@@ -99,10 +99,59 @@ public class DishController {
         return R.success(dishDto);
      }
 
-
-     @PutMapping
+    /**
+     * update with flavor
+     * @param dishDto
+     * @return
+     */
+    @PutMapping
     public R<String> update(@RequestBody DishDto dishDto){
          dishService.updateWithFlavor(dishDto);
          return R.success("Update dish successful");
      }
+
+    /**
+     * switch status by ids
+     * @param status
+     * @param ids
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public R<String> sale(@PathVariable int status,
+                          String[] ids){
+        for(String id: ids){
+            Dish dish = dishService.getById(id);
+            dish.setStatus(status);
+            dishService.updateById(dish);
+        }
+        return R.success("Switch status successful");
+    }
+
+
+    /**
+     * delete dish by ids
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    public R<String> delete(String[] ids){
+        for (String id:ids) {
+            dishService.removeById(id);
+        }
+        return R.success("Delete successful");
+    }
+
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+
+        LambdaQueryWrapper<Dish> lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        //query item with status 1
+        lambdaQueryWrapper.eq(Dish::getStatus,1);
+        lambdaQueryWrapper.eq(dish.getCategoryId()!=null,Dish::getCategoryId,dish.getCategoryId());
+        lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+
+        List<Dish> list=dishService.list(lambdaQueryWrapper);
+
+        return R.success(list);
+    }
 }

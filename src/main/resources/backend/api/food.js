@@ -16,8 +16,6 @@ const addDish = (params) => {
   })
 }
 
-
-
 // get a dish info by id
 const queryDishById = (id) => {
   return $axios({
@@ -45,7 +43,6 @@ const deleteDish = (ids) => {
   })
 }
 
-
 // get category list
 const getCategoryList = (params) => {
   return $axios({
@@ -55,32 +52,20 @@ const getCategoryList = (params) => {
   })
 }
 
-// 查菜品列表的接口
-const queryDishList = (params) => {
-  return $axios({
-    url: '/dish/list',
-    method: 'get',
-    params
-  })
-}
-
-// img download
-const commonDownload = (params) => {
-  return $axios({
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    },
-    url: '/common/download',
-    method: 'get',
-    params
-  })
-}
-
-// 起售停售---批量起售停售接口
+// switch status - suspend or start selling
 const dishStatusByStatus = (params) => {
   return $axios({
     url: `/dish/status/${params.status}`,
     method: 'post',
     params: { ids: params.id }
+  })
+}
+
+// query dish
+const queryDishList = (params) => {
+  return $axios({
+    url: '/dish/list',
+    method: 'get',
+    params
   })
 }

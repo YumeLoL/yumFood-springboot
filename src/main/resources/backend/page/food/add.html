@@ -66,7 +66,7 @@
             <el-input
               v-model="ruleForm.name"
               placeholder="Dish name"
-              maxlength="20"
+              maxlength="50"
             />
           </el-form-item>
           <el-form-item
@@ -488,7 +488,7 @@
                       this.$message.success('Edit dish successful！')
                       this.goBack()
                     } else {
-                      this.$message.error(res.msg || 'Action faile')
+                      this.$message.error(res.msg || 'Action failed')
                     }
                   }).catch(err => {
                     this.$message.error('Request error：' + err)
